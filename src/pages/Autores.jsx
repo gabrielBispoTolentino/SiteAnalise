@@ -8,7 +8,7 @@ export default function Autores() {
 
   useEffect(() => {
     async function load() {
-      const { data, error } = await supabaseClient.from('Author').select('ID, Name, Full_Name');
+      const { data, error } = await supabaseClient.from('author').select('id, nome, nome_completo')
       if (!error && data) setAutores(data);
       setLoading(false);
     }
@@ -41,10 +41,10 @@ export default function Autores() {
               </tr>
             ) : (
               autores.map((autor) => (
-                <tr key={autor.ID}>
-                  <td>{autor.ID}</td>
-                  <td>{autor.Name}</td>
-                  <td>{autor.Full_Name}</td>
+                <tr key={autor.id}>
+                  <td>{autor.id}</td>
+                  <td>{autor.nome}</td>
+                  <td>{autor.nome_completo}</td>
                 </tr>
               ))
             )}

@@ -8,8 +8,8 @@ export default function PalavrasChave() {
 
   useEffect(() => {
     async function loadKeywords() {
-      const { data: relations, error: relErr } = await supabaseClient.from('Article_keyword').select('ID_Keyword');
-      const { data: keywordsData, error: kwErr } = await supabaseClient.from('Keyword').select('ID, Keyword');
+      const { data: relations, error: relErr } = await supabaseClient.from('article_keywords').select('id_keywords');
+      const { data: keywordsData, error: kwErr } = await supabaseClient.from('keywords').select('id, keywords');
       if (relErr || kwErr || !relations || !keywordsData) {
         setKeywords([]);
         setLoading(false);
@@ -18,11 +18,11 @@ export default function PalavrasChave() {
 
       const counts = {};
       relations.forEach((relation) => {
-        counts[relation.ID_Keyword] = (counts[relation.ID_Keyword] || 0) + 1;
+        counts[relation.id_keywords] = (counts[relation.id_keywords] || 0) + 1;
       });
 
       const ranking = keywordsData
-        .map((kw) => ({ text: kw.Keyword, count: counts[kw.ID] || 0 }))
+        .map((kw) => ({ text: kw.keywords, count: counts[kw.id] || 0 }))
         .filter((item) => item.count > 0)
         .sort((a, b) => b.count - a.count)
         .slice(0, 50);
